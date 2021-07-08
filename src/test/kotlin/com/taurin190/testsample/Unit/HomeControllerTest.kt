@@ -1,6 +1,7 @@
 package com.taurin190.testsample.Unit
 
 import com.taurin190.testsample.HomeController
+import org.hamcrest.CoreMatchers.containsString
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.MockMvc
@@ -8,6 +9,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
 class HomeControllerTest {
     private lateinit var mockMvc: MockMvc
@@ -25,5 +27,6 @@ class HomeControllerTest {
             get("/"))
             .andDo(print())
             .andExpect(status().is2xxSuccessful)
+            .andExpect(content().string(containsString("index")))
     }
 }

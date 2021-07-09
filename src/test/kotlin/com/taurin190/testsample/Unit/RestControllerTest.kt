@@ -1,6 +1,6 @@
 package com.taurin190.testsample.Unit
 
-import com.taurin190.testsample.HomeController
+import com.taurin190.testsample.RestController
 import org.hamcrest.CoreMatchers.containsString
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 
-class HomeControllerTest {
+class RestControllerTest {
     private lateinit var mockMvc: MockMvc
 
-    private val homeController = HomeController()
+    private val homeController = RestController()
 
     @BeforeEach
     fun setup() {

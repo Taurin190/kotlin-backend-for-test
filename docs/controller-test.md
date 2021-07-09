@@ -32,3 +32,10 @@ Modelを確認する形になる。
 mockMvc.perform(get("/mvc/test"))
     .andExpect(model().attribute("name", "test"))
 ```
+
+### 依存関係のあるテストについて
+Serviceを持つControllerのテストについては`MockMvcBuilders.standaloneSetup`を行う前に、
+MockのInjectionを行う必要がある。
+
+試したのは、MockKなので`MockKAnnotations.init(this)`で初期化した後、
+MockMvcにセットすればテスト実施できる。

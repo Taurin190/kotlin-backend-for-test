@@ -14,11 +14,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 class RestControllerTest {
     private lateinit var mockMvc: MockMvc
 
-    private val homeController = RestController()
+    private val restController = RestController()
 
     @BeforeEach
     fun setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(restController).build()
     }
 
     @Test

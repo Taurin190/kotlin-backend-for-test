@@ -1,4 +1,4 @@
-package com.taurin190.testsample.Unit
+package com.taurin190.testsample.StandAlone
 
 import com.taurin190.testsample.RestController
 import org.hamcrest.CoreMatchers.containsString

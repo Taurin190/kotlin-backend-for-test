@@ -161,3 +161,10 @@ javax.servlet.ServletException: Circular view path [name]: would dispatch back t
 独自でViewResolverのクラスを作成して`.setViewResolvers(new StandaloneMvcTestViewResolver())`と追加してあげれば解決するようだ。
 
 https://stackoverflow.com/questions/18813615/how-to-avoid-the-circular-view-path-exception-with-spring-mvc-test
+
+他の記事でも同様の問題が取り上げられており、
+`@GetMapping`で指定しているパスの名前とViewの名前が一致すると起こると書かれている。
+https://www.baeldung.com/spring-circular-view-path-error
+
+ただ、URLとViewのパスは一致している方が分かりやすい場合も多いので、
+ViewResolverをセットする解決方法の方が良さそう。

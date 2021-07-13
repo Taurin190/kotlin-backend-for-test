@@ -168,3 +168,19 @@ https://www.baeldung.com/spring-circular-view-path-error
 
 ただ、URLとViewのパスは一致している方が分かりやすい場合も多いので、
 ViewResolverをセットする解決方法の方が良さそう。
+
+### StandAloneのControllerの単体テストとSpringBootTest単体テストの違いについて
+単体テストにおいて、ContextやFilter、SpringbootでのViewの設定などが行われないため、
+content()でhtmlの内容は出てこない。
+
+SpringBootTestを付けて`@Autowired`でMockMvcを作成した場合には、htmlの内容まで表示される。
+あと実行にかかる時間が異なり、以下のような結果だった。
+意外にStandAloneの時間がかかっていた。
+
+| テスト種類 | 実行時間 |
+| ---- | ---- |
+| StandAlone | 4sec 959ms |
+| WithContext | 1sec 872ms |
+| SpringBootMock | 2sec 237ms |
+
+もう少し違いが分かるテストを作っていけると良いかもしれない。

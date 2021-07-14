@@ -31,16 +31,12 @@ jobs:
         run: ./gradlew test
       - name: Slack Notification on Success
         if: success()
-        uses: rtCamp/action-slack-notify@v2.0.2
-        env:
-          SLACK_CHANNEL: ci
-          SLACK_TITLE: Test Success
-          SLACK_COLOR: good
+        run: |
+          curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
+          ${env.SLACK_WEBHOOK}
 
       - name: Slack Notification on Failure
-        uses: rtCamp/action-slack-notify@v2.0.2
         if: failure()
-        env:
-          SLACK_CHANNEL: ci
-          SLACK_TITLE: Test Failure
-          SLACK_COLOR: danger
+        run: |
+          curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
+          ${env.SLACK_WEBHOOK}

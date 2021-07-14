@@ -33,10 +33,10 @@ jobs:
         if: success()
         run: |
           curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
-          ${env.SLACK_WEBHOOK}
+          ${SLACK_WEBHOOK}
 
       - name: Slack Notification on Failure
         if: failure()
         run: |
           curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
-          ${env.SLACK_WEBHOOK}
+          ${SLACK_WEBHOOK}

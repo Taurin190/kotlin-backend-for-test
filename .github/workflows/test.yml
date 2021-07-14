@@ -28,3 +28,9 @@ jobs:
       # Runs tests
       - name: Run Unit Tests
         run: ./gradlew test
+      - name: Slack Notification
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        with:
+          text: Pass Test

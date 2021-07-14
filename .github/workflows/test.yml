@@ -28,9 +28,18 @@ jobs:
       # Runs tests
       - name: Run Unit Tests
         run: ./gradlew test
-      - name: Slack Notification
-        uses: tokorom/action-slack-incoming-webhook@main
+      - name: Slack Notification on Success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2.0.2
         env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-          text: Pass Test
+          SLACK_CHANNEL: ci
+          SLACK_TITLE: Test Success
+          SLACK_COLOR: good
+
+      - name: Slack Notification on Failure
+        uses: rtCamp/action-slack-notify@v2.0.2
+        if: failure()
+        env:
+          SLACK_CHANNEL: ci
+          SLACK_TITLE: Test Failure
+          SLACK_COLOR: danger

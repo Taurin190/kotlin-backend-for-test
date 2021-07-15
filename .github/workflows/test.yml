@@ -37,14 +37,13 @@ jobs:
       # Runs tests
       - name: Run Unit Tests
         run: ./gradlew test
+      # Slack Notification with Library
       - name: Slack Notification on Success
-        if: success()
-        run: |
-          curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
-          ${SLACK_WEBHOOK}
-
-      - name: Slack Notification on Failure
-        if: failure()
-        run: |
-          curl -X POST --data-urlencode "payload={\"channel\": \"#kotlin-backend-for-test\", \"username\": \"webhookbot\", \"text\": \"This is posted to #kotlin-backend-for-test and comes from a bot named webhookbot.\", \"icon_emoji\": \":ghost:\"}" \
-          ${SLACK_WEBHOOK}
+        uses: rtCamp/action-slack-notify@@v2.2.0
+        if: always()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_MESSAGE: "Test Result: ${{ job.status }}"
+          SLACK_TITLE: Test Result
+          SLACK_USERNAME: AutoTest Bot

@@ -38,7 +38,7 @@ jobs:
       - name: Run Unit Tests
         run: ./gradlew test
       # Slack Notification with Library
-      - name: Slack Notification on Success
+      - name: Slack Notification
         uses: rtCamp/action-slack-notify@@v2.2.0
         if: always()
         env:

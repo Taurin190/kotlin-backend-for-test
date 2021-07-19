@@ -20,7 +20,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter(){
 
     override fun configure(http: HttpSecurity) {
         http.authorizeRequests()
-            .antMatchers("/", "/rest/**", "/mvc/**", "/mvc2/**").permitAll()
+            .antMatchers("/", "/rest/**", "/mvc/**", "/mvc2/**",  "/auth/login").permitAll()
             .anyRequest().authenticated()
     }
 }

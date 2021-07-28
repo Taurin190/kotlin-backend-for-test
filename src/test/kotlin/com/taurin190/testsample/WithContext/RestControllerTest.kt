@@ -1,5 +1,7 @@
 package com.taurin190.testsample.WithContext
 
+import com.ninjasquad.springmockk.MockkBean
+import com.taurin190.testsample.AuthService
 import com.taurin190.testsample.RestController
 import org.hamcrest.CoreMatchers
 import org.junit.jupiter.api.Test
@@ -17,6 +19,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 class RestControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @MockkBean
+    private lateinit var authService: AuthService
 
     @Test
     fun testShowIndex() {

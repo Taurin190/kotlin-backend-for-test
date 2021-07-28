@@ -1,6 +1,7 @@
 package com.taurin190.testsample.WithContext
 
 import com.ninjasquad.springmockk.MockkBean
+import com.taurin190.testsample.AuthService
 import com.taurin190.testsample.Mvc2Controller
 import com.taurin190.testsample.SampleService
 import io.mockk.every
@@ -22,6 +23,9 @@ class Mvc2ControllerTest {
 
     @MockkBean
     private lateinit var sampleService: SampleService
+
+    @MockkBean
+    private lateinit var authService: AuthService
 
     @Test
     fun testShowMvcNameList() {

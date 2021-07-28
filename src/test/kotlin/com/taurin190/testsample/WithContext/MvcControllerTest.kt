@@ -1,5 +1,7 @@
 package com.taurin190.testsample.WithContext
 
+import com.ninjasquad.springmockk.MockkBean
+import com.taurin190.testsample.AuthService
 import com.taurin190.testsample.MvcController
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -16,6 +18,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 class MvcControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @MockkBean
+    private lateinit var authService: AuthService
 
     @Test
     fun testShowMvcIndex() {

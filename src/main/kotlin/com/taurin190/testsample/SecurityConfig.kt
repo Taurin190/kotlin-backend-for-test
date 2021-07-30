@@ -32,7 +32,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter(){
 
         http.formLogin()
             .loginPage("/auth/login")
-            .loginProcessingUrl("/login")
+            .loginProcessingUrl("/auth/login")
             .defaultSuccessUrl("/")
             .usernameParameter("username")
             .passwordParameter("password")

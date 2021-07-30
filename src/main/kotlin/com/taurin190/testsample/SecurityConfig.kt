@@ -16,6 +16,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 @Configuration
 @EnableWebSecurity
 class SecurityConfig: WebSecurityConfigurerAdapter(){
+    @Bean
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
+
     override fun configure(web: WebSecurity) {
         web.ignoring().antMatchers(
             "/**/favicon.ico",
@@ -52,10 +55,5 @@ class SecurityConfig: WebSecurityConfigurerAdapter(){
         override fun init( auth: AuthenticationManagerBuilder) {
             auth.userDetailsService(authService)
         }
-    }
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder? {
-        return BCryptPasswordEncoder()
     }
 }

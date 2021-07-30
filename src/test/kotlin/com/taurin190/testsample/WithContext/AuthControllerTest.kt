@@ -3,7 +3,6 @@ package com.taurin190.testsample.WithContext
 import com.ninjasquad.springmockk.MockkBean
 import com.taurin190.testsample.AuthController
 import com.taurin190.testsample.AuthService
-import com.taurin190.testsample.LoginForm
 import io.mockk.every
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 
 @ExtendWith(SpringExtension::class)
@@ -42,9 +40,6 @@ class AuthControllerTest {
 
     @Test
     fun testPostAuthLogin() {
-        val loginForm = LoginForm()
-        loginForm.username = "test"
-        loginForm.password = "test"
         every {
             authService.loadUserByUsername(any())
         } returns User.withUsername("test")

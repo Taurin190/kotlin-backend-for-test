@@ -184,3 +184,44 @@ SpringBootTestを付けて`@Autowired`でMockMvcを作成した場合には、ht
 | SpringBootMock | 2sec 237ms |
 
 もう少し違いが分かるテストを作っていけると良いかもしれない。
+
+### Securityの設定の導入とテスト
+Securityのプラグインを入れてConfigを作成すると、
+以下のように設定しているWithContextのテストはこけるようになる。
+`@WebMvcTest(MvcController::class)`
+
+原因は書いてある通りAutowiredでDIしているServiceが見つからないということだと思う。
+```
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig': Unsatisfied dependency expressed through method 'setAuthenticationConfiguration' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration': Unsatisfied dependency expressed through method 'setGlobalAuthenticationConfigurers' parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'com.taurin190.testsample.SecurityConfig$AuthenticationConfiguration': Unsatisfied dependency expressed through field 'authService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.taurin190.testsample.AuthService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.resolveMethodArguments(AutowiredAnnotationBeanPostProcessor.java:768) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredMethodElement.inject(AutowiredAnnotationBeanPostProcessor.java:720) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:119) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1413) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:524) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:944) ~[spring-beans-5.3.8.jar:5.3.8]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918) ~[spring-context-5.3.8.jar:5.3.8]
+
+```
+
+MockkBeanでDIされるように宣言すれば大丈夫。
+後ほど行なったフォームのテストで解ったのは、SpringBootMockでは、
+AutowiredでMockMvcにinjectした時にServiceも実際のServiceをDIしているためエラーが出ない。
+
+そのため、Mockとして使いたい場合には、WithContextのテストと同様にMockkBeanで宣言すると良い。
+
+### Loginフォームのテスト
+ログインフォームのテストには、以下のライブラリを入れる必要がある。
+`testImplementation("org.springframework.security:spring-security-test")`
+これを入れるとuser(), csrf()などが使えてテストが書きやすくなる。
+
+Loginフォームのテストには`formLogin()`という関数が用意されているので、
+これを使うのが良いのかと思う。
+
+パスワードの検証にはデフォルトで、passwordEncoderでエンコードした値での検証が行われるため、
+意識してテストを書く必要がある。

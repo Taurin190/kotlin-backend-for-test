@@ -60,4 +60,23 @@ class AuthControllerTest {
             .andExpect(redirectedUrl("/"))
             .andExpect(authenticated().withUsername("test"))
     }
+
+    @Test
+    fun testPostAuthLoginWithInvalidAccount() {
+        every {
+            authService.loadUserByUsername(any())
+        } returns User.withUsername("test")
+            .password(passwordEncoder.encode("test"))
+            .roles("ADMIN")
+            .build()
+
+        mockMvc.perform(
+            formLogin()
+                .loginProcessingUrl("/auth/login")
+                .user("test")
+                .password("invalid"))
+            .andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().is3xxRedirection)
+            .andExpect(MockMvcResultMatchers.redirectedUrl("/auth/login?error"))
+    }
 }

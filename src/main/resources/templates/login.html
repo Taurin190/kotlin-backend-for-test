@@ -9,7 +9,7 @@
       ログインして下さい。
     </h1>
     <div>
-      <form method="post" th:action="@{/login}" th:object="${loginForm}">
+      <form method="post" th:action="@{/auth/login}" th:object="${loginForm}">
         <div>
           <label>ユーザID</label>
           <input type="text" class="form-control" th:field="*{username}" />

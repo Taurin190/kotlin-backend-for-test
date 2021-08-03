@@ -43,7 +43,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter(){
 
         http.logout()
             .logoutRequestMatcher(AntPathRequestMatcher("/logout**"))
-            .logoutSuccessUrl("/login")
+            .logoutSuccessUrl("/auth/login")
             .invalidateHttpSession(true)
     }
 
